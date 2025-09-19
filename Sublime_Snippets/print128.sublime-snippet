@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+void print128(__int128 n) {
+  vector<int> v;
+  while (n) {
+    v.push_back(n % 10);
+    n /= 10;
+  }
+  reverse(v.begin(), v.end());
+  for (auto e : v) cout << e;
+  cout << "\n";
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>print128</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

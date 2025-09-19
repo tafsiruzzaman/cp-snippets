@@ -1,0 +1,48 @@
+<snippet>
+	<content><![CDATA[
+const int N = 505, LG = 10;
+int st[N][N][LG][LG], a[N][N];
+
+int combine(int x, int y) {
+  return max(x, y); // Change as needed (min, max, gcd, etc.)
+}
+
+void build(int n, int m) {
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      st[i][j][0][0] = a[i][j];
+    }
+  }
+  for (int kx = 0; kx < LG; kx++) {
+    for (int ky = 0; ky < LG; ky++) {
+      if (kx == 0 and ky == 0) {
+        continue;
+      }
+      for (int i = 0; i + (1 << kx) <= n; i++) {
+        for (int j = 0; j + (1 << ky) <= m; j++) {
+          if (kx == 0) {
+            st[i][j][kx][ky] = combine(st[i][j][kx][ky - 1], st[i][j + (1 << (ky - 1))][kx][ky - 1]);
+          } else {
+            st[i][j][kx][ky] = combine(st[i][j][kx - 1][ky], st[i + (1 << (kx - 1))][j][kx - 1][ky]);
+          }
+        }
+      }
+    }
+  }
+}
+
+int query(int x1, int y1, int x2, int y2) {
+  int kx = 31 - __builtin_clz(x2 - x1 + 1);
+  int ky = 31 - __builtin_clz(y2 - y1 + 1);
+  int v1 = st[x1][y1][kx][ky];
+  int v2 = st[x2 - (1 << kx) + 1][y1][kx][ky];
+  int v3 = st[x1][y2 - (1 << ky) + 1][kx][ky];
+  int v4 = st[x2 - (1 << kx) + 1][y2 - (1 << ky) + 1][kx][ky];
+  return combine(combine(v1, v2), combine(v3, v4));
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>SparseTable(2d)</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

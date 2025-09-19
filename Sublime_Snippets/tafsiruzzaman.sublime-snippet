@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+#include<bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+void test() {
+  ${2:}
+}
+
+int main() {
+  ios::sync_with_stdio(0), cin.tie(0);
+  int t = 1;  ${1://}cin >> t;
+  while (t--) test();
+  return 0;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>tafsiruzzaman</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

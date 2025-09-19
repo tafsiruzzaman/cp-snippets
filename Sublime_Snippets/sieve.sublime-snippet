@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+const int N = 1e7 + 10;
+vector<int> lpf(N), gpf(N);
+
+void sieve() {
+  for (int i = 2; i < N; i++) {
+    if (lpf[i] == 0) {
+      lpf[i] = gpf[i] = i;
+      for (int j = 2 * i; j < N; j += i) {
+        if (lpf[j] == 0) lpf[j] = i;
+        gpf[j] = i;
+      }
+    }
+  }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sieve</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

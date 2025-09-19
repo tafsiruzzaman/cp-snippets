@@ -1,0 +1,87 @@
+<snippet>
+	<content><![CDATA[
+const int N = 2e5+5, K = 20;
+
+vector<int> adj[N];
+int t, tin[N], tout[N], dep[N], par[N][K]; 
+
+void reset(int n) {
+  for (int i = 0; i < n; i++) {
+    adj[i].clear();
+    dep[i] = tin[i] = tout[i] = 0;
+    for (int k = 0; k < K; k++) {
+      par[i][k] = 0;
+    }
+  }
+  t = 0;
+}
+
+// O(nlogn)
+void dfs(int u, int p) {
+  tin[u] = t++;
+  par[u][0] = p;
+  for (int k = 1; k < K; ++k) {
+    par[u][k] = par[par[u][k - 1]][k - 1];
+  }
+  for (auto v: adj[u]) {
+    if (v == p)  continue;
+    dep[v] = dep[u] + 1;
+    dfs(v, u);
+  }
+  tout[u] = t++;
+}
+
+// O(1)
+bool is_anc(int u, int v){
+  return tin[u] <= tin[v] and tout[u] >= tout[v];
+}
+
+// O(log(n))
+int lca(int u, int v){
+  if(is_anc(u, v))  return u;
+  for(int k = K - 1; k >= 0; k--){
+    if(!is_anc(par[u][k], v)) {
+      u = par[u][k];
+    }
+  }
+  return par[u][0];
+}
+
+// O(1)
+int dis(int u, int v) {
+  return dep[u] + dep[v] - 2 * dep[lca(u, v)];
+}
+
+int kth_ancestor(int u, int k) {
+  if (k > dep[u]) return -1;
+  for (int i = 0; i < K; i++) {
+    if (k & (1 << i)) {
+      u = par[u][i];
+    }
+  }
+  return u;
+}
+
+void test() {
+  int n, q;
+  cin >> n >> q;
+  reset(n);
+  for (int e = 0; e < n - 1; ++e) {
+    int u, v;  cin >> u >> v;  u--, v--;
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+  }
+  dfs(0, 0);
+  while (q--) {
+    int u, v;  cin >> u >> v;  u--, v--;
+    int l = lca(u, v);
+    int d = dis(u, v);
+    cout << l << " " << d << "\n";
+  }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lca</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

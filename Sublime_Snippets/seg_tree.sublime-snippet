@@ -1,0 +1,56 @@
+<snippet>
+	<content><![CDATA[
+template<typename T> struct SegmentTree {
+  vector<T> st;
+  vector<T>& a;
+  T defaultValue = 0; // Default return
+  SegmentTree(vector<T>& arr) : a(arr) {
+    st.resize(4 * arr.size());
+    build(1, 0, arr.size() - 1);
+  }
+  T combine(T x, T y) {
+    return x + y;  // Change as needed (e.g., max, gcd, bit_or, bit_and)
+  }
+  void build(int u, int s, int e) {
+    if (s == e) {
+      st[u] = a[s];
+      return;
+    }
+    int v = 2 * u, w = (2 * u) + 1, m = (s + e) / 2;
+    build(v, s, m);
+    build(w, m + 1, e);
+    st[u] = combine(st[v], st[w]);
+  }
+  T _query(int l, int r, int u, int s, int e) {
+    if (e < l || r < s) return defaultValue;
+    if (l <= s && e <= r) return st[u];
+    int v = 2 * u, w = (2 * u) + 1, m = (s + e) / 2;
+    T lc = _query(l, r, v, s, m);
+    T rc = _query(l, r, w, m + 1, e);
+    return combine( lc, rc);
+  }
+  void _update(int idx, T newV, int u, int s, int e) {
+    if (s == e) {
+      st[u] = a[s] = newV;
+      return;
+    }
+    int v = 2 * u, w = (2 * u) + 1, m = (s + e) / 2;
+    if (idx <= m) _update(idx, newV, v, s, m);
+    else _update(idx, newV, w, m + 1, e);
+    st[u] = combine(st[v], st[w]);
+  }
+  T query(int l, int r) {
+    return _query(l, r, 1, 0, (int)a.size() - 1);
+  }
+  void update(int idx, T newV) {
+    _update(idx, newV, 1, 0, (int)a.size() - 1);
+  }
+  // query(l, r);
+  // update(idx, newV);
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segment tree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

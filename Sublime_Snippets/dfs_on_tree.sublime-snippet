@@ -1,0 +1,44 @@
+<snippet>
+	<content><![CDATA[
+const int N = 2e5+5;
+
+vector<int> adj[N], tin(N), tout(N), visited_nodes, sz(N), h(N), dep(N), par(N);
+
+bool is_anc(int u, int v) {
+  return tin[u] <= tin[v] and tout[v] <= tout[u];
+}
+
+void dfs(int u, int p) {
+  tin[u] = visited_nodes.size();
+  visited_nodes.push_back(u);
+  sz[u] = 1;
+  h[u] = 0;
+  for (auto v: adj[u]) {
+    if (v == p)  continue;
+    par[v] = u;
+    dep[v] = dep[u] + 1;
+    dfs(v, u);
+    sz[u] += sz[v];
+    h[u] = max(h[u], 1 + h[v]);
+  }
+  tout[u] = visited_nodes.size() - 1;
+}
+
+void reset(int n) {
+  for (int i = 0; i <= n; i++) {
+    adj[i].clear();
+    tin[i] = 0;
+    tout[i] = 0;
+    sz[i] = 0;
+    h[i] = 0;
+    dep[i] = 0;
+    par[i] = 0;
+  }
+  visited_nodes.clear();
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dfs_on_tree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

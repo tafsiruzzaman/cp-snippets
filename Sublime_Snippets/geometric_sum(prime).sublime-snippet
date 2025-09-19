@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+ll geometric_sum(ll a, ll n) {
+  // S = 1 + a + a^2 + ... + a^n mod MOD = (a^{n+1} - 1)/(a-1) mod MOD;
+  if (a == 1) {
+    return (n + 1) % MOD;
+  }
+  ll numerator = add(binPow(a, n + 1), -1);
+  ll denominator = add(a, -1);
+  return divide(numerator, denominator);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>geometric_sum(prime)</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

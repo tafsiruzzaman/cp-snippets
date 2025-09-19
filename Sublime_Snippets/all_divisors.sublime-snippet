@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+const int N = 1e6 + 10;
+vector<int> lpf(N);
+void sieve() {
+  for (int i = 2; i < N; i++) {
+    if (lpf[i] == 0) {
+      lpf[i] = i;
+      for (int j = 2 * i; j < N; j +=  i) {
+        if (lpf[j] == 0) lpf[j] = i;
+      }
+    }
+  }
+}
+
+vector<int> gen_divisors(int x) {
+  vector<int> divisors = {1};
+  while (x > 1) {
+    int p = lpf[x];
+    int cnt = 0;
+    while (x % p == 0) {
+      x /= p;
+      cnt++;
+    }
+
+    int sz = divisors.size();
+    for (int i = 0; i < sz; i++) {
+      int val = divisors[i];
+      for (int j = 0; j < cnt; j++) {
+        val *= p;
+        divisors.push_back(val);
+      }
+    }
+  }
+  return divisors;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>all_divisor(logN)</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,27 @@
+<snippet>
+	<content><![CDATA[
+#include<bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using dt = array<int, 2>;
+
+void test() {
+  
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int T = 1;  
+  cin >> T;
+  for (int i = 1; i <= T; i++) {
+    test();
+  }
+  return 0;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>template</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
