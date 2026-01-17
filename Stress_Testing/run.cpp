@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-const int ITER = 100; // increased iterations for better chance
+const int ITER = 1000000; // increased iterations for better chance
 
 // Function to trim trailing whitespace (spaces, tabs, newlines, carriage returns)
 string trim_trailing(const string& s) {
